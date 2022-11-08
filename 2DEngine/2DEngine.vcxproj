@@ -24,7 +24,7 @@
     <ProjectGuid>{becd41f2-26b9-433d-be8e-e6d3eb262b97}</ProjectGuid>
     <RootNamespace>My2DEngine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>CEngine</ProjectName>
+    <ProjectName>2DEngine</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -174,6 +174,7 @@
     <ClInclude Include="src\render\shader.h" />
     <ClInclude Include="src\main\window.h" />
     <ClInclude Include="src\util\textureReader.h" />
+    <ClInclude Include="src\util\timer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shader\quad.frag.glsl" />

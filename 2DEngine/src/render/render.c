@@ -4,7 +4,10 @@
 #include "shader.h"
 
 unsigned int loadModel() {
-    float quad[8] = { -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, 1.0f, 1.0f, -1.0f };
+    float quad[8] = { -1.0f,  1.0f,
+                      -1.0f, -1.0f,
+                       1.0f,  1.0f,
+                       1.0f, -1.0f };
 
     unsigned int vao;
     glGenVertexArrays(1, &vao);

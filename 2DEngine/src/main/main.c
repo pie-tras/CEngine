@@ -9,6 +9,22 @@
 #include "render/render.h"
 #include "render/positional.h"
 #include "render/texture.h"
+#include "util/timer.h"
+
+void tick(struct stopwatchData* fps, int* frame_count) {
+
+    stopwatch(fps);
+    if (fps->elapsed > 1) {
+        printf("FPS: %d, Elapsed: %f\n", *frame_count, fps->elapsed);
+        clearStopwatch(fps);
+        *frame_count = 0;
+    }
+
+    (*frame_count)++;
+}
+
+void render() {
+}
 
 int main(void) {
 
@@ -36,31 +52,32 @@ int main(void) {
     pos2->x = 64;
     pos2->y = 64;
 
-    double fps = glfwGetTime();
-    int frame_count = 0;
-
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    int frame_count = 0;
+    struct stopwatchData* fps = malloc(sizeof(*fps));
+    struct stopwatchData* sd = malloc(sizeof(*sd));
+    clearStopwatch(fps);
+    clearStopwatch(sd);
+
     while (!glfwWindowShouldClose(window)) {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        stopwatch(sd);
+        if (sd->elapsed > 0.016) {
+            tick(fps, &frame_count);
 
-        renderTile(tile, 2, 0, 0, pos2, quad_shader);
-        renderTexture(sheep, pos, quad_shader);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-        glfwSwapBuffers(window);
-        glfwPollEvents();
+            render();
+            renderTile(tile, 2, 0, 0, pos2, quad_shader);
+            renderTexture(sheep, pos, quad_shader);
 
-        double current = glfwGetTime();
+            glfwSwapBuffers(window);
+            glfwPollEvents();
 
-        if (current - fps > 1) {
-            printf("FPS: %d\n", frame_count);
-            fps = glfwGetTime();
-            frame_count = 0;
+            clearStopwatch(sd);
         }
-
-        frame_count++;
     }
     
     cleanTexture(sheep);
